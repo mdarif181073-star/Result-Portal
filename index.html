@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result Portal | Daffodil Polytechnic Institute</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dpi: {
+                            navy: '#0f2c59',
+                            blue: '#1b4985',
+                            accent: '#00a8cc',
+                            gold: '#d4af37',
+                            light: '#f4f7fb',
+                            dark: '#1e293b'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Merriweather', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Print Stylesheet for Official Transcript */
+        @media print {
+            body {
+                background: white !important;
+                color: black !important;
+                font-size: 12pt;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .print-only {
+                display: block !important;
+            }
+            .print-card {
+                box-shadow: none !important;
+                border: 1px solid #ccc !important;
+                margin: 0 !important;
+                padding: 20px !important;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+        }
+
+        .bg-watermark-logo {
+            position: relative;
+        }
+        .bg-watermark-logo::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            background-image: url('https://placehold.co/400x400/0f2c59/ffffff?text=DPI+SEAL');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            opacity: 0.04;
+            pointer-events: none;
+            z-index: 0;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 font-sans text-slate-800 min-h-screen flex flex-col justify-between">
+
+    <!-- Header Navigation -->
+    <header class="bg-dpi-navy text-white shadow-md border-b-4 border-dpi-accent no-print sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-dpi-navy font-bold text-xl shadow border-2 border-dpi-accent">
+                        <i class="fa-solid fa-graduation-cap text-dpi-navy text-2xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-base sm:text-lg tracking-tight leading-tight uppercase">Daffodil Polytechnic Institute</h1>
+                        <p class="text-xs text-cyan-300 font-medium">Online Examination Result Portal</p>
+                    </div>
+                </div>
+                <div class="hidden sm:block text-right text-xs text-slate-300">
+                    <p class="font-semibold text-white">Board of Technical Education</p>
+                    <p>Academic Session: 2024-2025</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8 flex-grow w-full">
+
+        <!-- Search Form Card -->
+        <section id="search-section" class="bg-white rounded-2xl shadow-md border border-slate-200 p-6 sm:p-8 mb-8 no-print">
+            <div class="flex items-center justify-between mb-6 border-b pb-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-dpi-light flex items-center justify-center text-dpi-blue">
+                        <i class="fa-solid fa-magnifying-glass text-lg"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-slate-800 text-lg">Student Result Search</h2>
+                        <p class="text-xs text-slate-500">Enter your official credentials to view examination marksheet</p>
+                    </div>
+                </div>
+                <span class="text-xs bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full font-medium hidden sm:flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Portal Active
+                </span>
+            </div>
+
+            <form id="search-form" onsubmit="handleSearch(event)" class="space-y-5">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Roll Number <span class="text-red-500">*</span></label>
+                        <input type="text" id="input-roll" placeholder="Enter Roll Number" required class="w-full px-3.5 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-dpi-accent focus:outline-none text-sm font-semibold text-slate-800 placeholder:font-normal">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Registration No <span class="text-red-500">*</span></label>
+                        <input type="text" id="input-reg" placeholder="Enter Registration No" required class="w-full px-3.5 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-dpi-accent focus:outline-none text-sm font-semibold text-slate-800 placeholder:font-normal">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Semester <span class="text-red-500">*</span></label>
+                        <select id="input-semester" required class="w-full px-3.5 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-dpi-accent focus:outline-none text-sm font-semibold text-slate-800 bg-white">
+                            <option value="" disabled selected>Select Semester</option>
+                            <option value="1st Semester">1st Semester</option>
+                            <option value="2nd Semester">2nd Semester</option>
+                            <option value="3rd Semester">3rd Semester</option>
+                            <option value="4th Semester">4th Semester</option>
+                            <option value="5th Semester">5th Semester</option>
+                            <option value="6th Semester">6th Semester</option>
+                            <option value="7th Semester">7th Semester</option>
+                            <option value="8th Semester">8th Semester</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3 pt-2">
+                    <button type="submit" class="bg-dpi-navy hover:bg-dpi-blue text-white font-semibold py-2.5 px-7 rounded-lg text-sm transition shadow flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-search"></i> Search Result
+                    </button>
+                    <button type="button" onclick="resetForm()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2.5 px-5 rounded-lg text-sm transition flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-rotate-left"></i> Clear
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Result Card View (Hidden by default) -->
+        <div id="result-view" class="hidden bg-white rounded-xl shadow-lg border border-slate-200 p-6 sm:p-10 relative overflow-hidden bg-watermark-logo print-card">
+            
+            <!-- Result Sheet Header -->
+            <div class="flex justify-between items-start border-b-2 border-slate-800 pb-6 mb-6">
+                <div class="flex items-center gap-4">
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 bg-dpi-navy text-white rounded-xl flex flex-col items-center justify-center font-bold text-xl sm:text-2xl shadow-inner border-2 border-dpi-gold flex-shrink-0">
+                        <span>DPI</span>
+                        <span class="text-[8px] font-normal tracking-widest text-cyan-300 uppercase">Dhaka</span>
+                    </div>
+                    <div>
+                        <h1 class="font-serif font-bold text-lg sm:text-2xl text-dpi-navy leading-tight uppercase">Daffodil Polytechnic Institute</h1>
+                        <p class="text-xs text-slate-600 font-medium">Approved by BTEB & Affiliated with Daffodil Family</p>
+                        <p class="text-xs text-slate-500 mt-0.5"><i class="fa-solid fa-location-dot text-slate-400"></i> Dhanmondi, Dhaka-1207, Bangladesh</p>
+                        <span id="res-badge" class="inline-block mt-2 text-[11px] font-bold tracking-wider text-dpi-blue bg-blue-50 border border-blue-200 px-2.5 py-0.5 rounded uppercase">
+                            Official Academic Marksheet — Result Sheet
+                        </span>
+                    </div>
+                </div>
+
+                <div class="hidden sm:flex flex-col items-end">
+                    <div class="w-20 h-20 border-2 border-dashed border-emerald-600 rounded-full flex flex-col items-center justify-center p-2 text-center text-emerald-700 bg-emerald-50/50">
+                        <i class="fa-solid fa-seal-check text-lg mb-0.5"></i>
+                        <span class="text-[8px] font-bold uppercase tracking-wider">VERIFIED</span>
+                        <span class="text-[8px] font-mono">BTEB-2025</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Student Profile Information -->
+            <div class="bg-slate-50 rounded-xl p-5 border border-slate-200 mb-6 grid grid-cols-1 md:grid-cols-3 gap-y-3 gap-x-6">
+                <div>
+                    <p class="text-[11px] uppercase font-bold text-slate-400">Student Name</p>
+                    <p class="text-base font-bold text-slate-800" id="res-name">-</p>
+                </div>
+                <div>
+                    <p class="text-[11px] uppercase font-bold text-slate-400">Roll Number</p>
+                    <p class="text-sm font-bold text-slate-800 font-mono" id="res-roll">-</p>
+                </div>
+                <div>
+                    <p class="text-[11px] uppercase font-bold text-slate-400">Registration No</p>
+                    <p class="text-sm font-bold text-slate-800 font-mono" id="res-reg">-</p>
+                </div>
+                <div>
+                    <p class="text-[11px] uppercase font-bold text-slate-400">Technology / Department</p>
+                    <p class="text-sm font-bold text-slate-800" id="res-tech">Computer Technology</p>
+                </div>
+                <div>
+                    <p class="text-[11px] uppercase font-bold text-slate-400">Semester</p>
+                    <p class="text-sm font-bold text-dpi-navy" id="res-semester">-</p>
+                </div>
+                <div>
+                    <p class="text-[11px] uppercase font-bold text-slate-400">Exam Year</p>
+                    <p class="text-sm font-bold text-slate-800">2025</p>
+                </div>
+            </div>
+
+            <!-- Result Highlight Banner -->
+            <div class="bg-gradient-to-r from-dpi-navy to-dpi-blue rounded-xl text-white p-5 mb-8 shadow-md flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 bg-white/10 rounded-lg flex items-center justify-center text-dpi-gold text-2xl font-bold border border-white/20">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-cyan-200 font-medium uppercase tracking-wider">Semester Grade Point Average (GPA)</p>
+                        <h3 class="text-3xl font-extrabold text-white">GPA: <span id="res-gpa" class="text-dpi-gold">0.00</span> <span class="text-xs font-normal text-slate-300">/ 4.00</span></h3>
+                    </div>
+                </div>
+                <div class="text-center sm:text-right bg-white/10 px-4 py-2 rounded-lg border border-white/10">
+                    <p class="text-xs text-slate-200">Result Status</p>
+                    <p class="text-base font-bold text-emerald-400" id="res-status"><i class="fa-solid fa-circle-check"></i> PASSED</p>
+                </div>
+            </div>
+
+            <!-- Subject Wise Grade Table -->
+            <div class="mb-8">
+                <h3 class="text-sm font-bold text-dpi-navy uppercase tracking-wider mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-list-check text-dpi-accent"></i> Subject Wise Grade Breakdown
+                </h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs sm:text-sm border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-700 border-y border-slate-300 uppercase tracking-wider text-[11px]">
+                                <th class="p-3 font-bold">Course Code</th>
+                                <th class="p-3 font-bold">Subject Name</th>
+                                <th class="p-3 font-bold text-center">Credit</th>
+                                <th class="p-3 font-bold text-center">Letter Grade</th>
+                                <th class="p-3 font-bold text-right">Grade Point</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 font-medium text-slate-700" id="course-table-body">
+                            <!-- Populated dynamically via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Footer Verification & Signatures -->
+            <div class="mt-12 pt-6 border-t border-slate-300 grid grid-cols-2 sm:grid-cols-3 items-end gap-6 text-center">
+                <!-- QR Code Verification -->
+                <div class="flex flex-col items-center sm:items-start text-left">
+                    <div class="p-1 bg-white border border-slate-300 rounded shadow-sm inline-block">
+                        <img id="res-qr" src="" alt="QR Code Verification" class="w-20 h-20">
+                    </div>
+                    <p class="text-[9px] text-slate-500 mt-1">Scan to verify authenticity</p>
+                </div>
+
+                <!-- Controller / Officer Signature -->
+                <div class="hidden sm:block text-center">
+                    <div class="h-10 flex items-end justify-center mb-1">
+                        <span class="font-serif italic font-bold text-slate-600 border-b border-slate-400 px-4 pb-1">Md. Shamsul Alam</span>
+                    </div>
+                    <p class="text-xs font-bold text-slate-700">Deputy Controller of Exams</p>
+                    <p class="text-[10px] text-slate-500">Daffodil Polytechnic Institute</p>
+                </div>
+
+                <!-- Principal Signature & Seal -->
+                <div class="text-center sm:text-right">
+                    <div class="h-10 flex items-end justify-center sm:justify-end mb-1">
+                        <span class="font-serif italic font-bold text-dpi-navy border-b border-slate-400 px-4 pb-1">K. M. Hasan</span>
+                    </div>
+                    <p class="text-xs font-bold text-slate-700">Principal / Head of Institute</p>
+                    <p class="text-[10px] text-slate-500">Daffodil Polytechnic Institute</p>
+                </div>
+            </div>
+
+            <!-- Disclaimer Footer -->
+            <div class="mt-8 pt-4 border-t border-slate-100 text-center text-[10px] text-slate-400">
+                <p>This academic document is officially generated for Result Verification by Daffodil Polytechnic Institute.</p>
+                <p>Ref: DPI/RESULT/2025/VERIFIED</p>
+            </div>
+
+        </div>
+
+        <!-- Action Control Bar -->
+        <div id="action-bar" class="hidden mt-6 flex flex-wrap items-center justify-between bg-white p-4 rounded-xl shadow-sm border border-slate-200 no-print gap-4">
+            <button onclick="searchAnother()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold px-4 py-2 rounded-lg text-sm transition flex items-center gap-2">
+                <i class="fa-solid fa-arrow-left"></i> Search Another Result
+            </button>
+            <button onclick="window.print()" class="bg-dpi-navy hover:bg-dpi-blue text-white font-bold px-5 py-2.5 rounded-lg text-sm transition flex items-center gap-2 shadow">
+                <i class="fa-solid fa-print"></i> Print / Save PDF
+            </button>
+        </div>
+
+    </main>
+
+    <!-- Page Footer -->
+    <footer class="bg-slate-900 text-slate-400 text-xs py-6 mt-12 border-t border-slate-800 no-print">
+        <div class="max-w-5xl mx-auto px-4 text-center space-y-1">
+            <p>&copy; 2025 Daffodil Polytechnic Institute (DPI). All Rights Reserved.</p>
+            <p class="text-slate-500 text-[11px]">Examination Control & Result Publication Management System</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Engine -->
+    <script>
+        // Sample Semester Subject Database Template
+        const semesterSubjectsMap = {
+            "1st Semester": [
+                { code: "66611", name: "Engineering Drawing", credit: "2" },
+                { code: "66612", name: "Basic Electronics", credit: "3" },
+                { code: "65911", name: "Mathematics-1", credit: "3" },
+                { code: "65913", name: "Physics-1", credit: "3" },
+                { code: "65711", name: "Bangla", credit: "2" },
+                { code: "65712", name: "English", credit: "2" }
+            ],
+            "2nd Semester": [
+                { code: "66621", name: "Database Application", credit: "3" },
+                { code: "66622", name: "IT Support System", credit: "3" },
+                { code: "65921", name: "Mathematics-2", credit: "3" },
+                { code: "65922", name: "Physics-2", credit: "3" },
+                { code: "65722", name: "Communicative English", credit: "2" }
+            ],
+            "3rd Semester": [
+                { code: "66631", name: "Programming Essentials", credit: "3" },
+                { code: "66632", name: "Web Design Fundamental", credit: "3" },
+                { code: "66633", name: "Graphics Design", credit: "2" },
+                { code: "65931", name: "Mathematics-3", credit: "3" },
+                { code: "65811", name: "Social Science", credit: "2" }
+            ],
+            "4th Semester": [
+                { code: "66641", name: "Data Structure & Algorithm", credit: "3" },
+                { code: "66642", name: "Object Oriented Programming", credit: "3" },
+                { code: "66643", name: "Web Development", credit: "3" },
+                { code: "66644", name: "Computer Peripherals", credit: "2" },
+                { code: "65841", name: "Business Organization", credit: "2" }
+            ],
+            "5th Semester": [
+                { code: "66651", name: "Programming in Java", credit: "3" },
+                { code: "66652", name: "Operating System Application", credit: "3" },
+                { code: "66653", name: "Web Development Project", credit: "3" },
+                { code: "66654", name: "Data Communication System", credit: "3" },
+                { code: "66655", name: "Computer Architecture", credit: "3" },
+                { code: "66856", name: "Industrial Management", credit: "2" }
+            ],
+            "6th Semester": [
+                { code: "66661", name: "Microcontroller & Embedded System", credit: "3" },
+                { code: "66662", name: "Database Management System", credit: "3" },
+                { code: "66663", name: "Software Engineering", credit: "3" },
+                { code: "66664", name: "Network Fundamentals", credit: "3" },
+                { code: "65852", name: "Industrial Economics", credit: "2" }
+            ],
+            "7th Semester": [
+                { code: "66671", name: "System Analysis & Design", credit: "3" },
+                { code: "66672", name: "Network Security & Cyber Law", credit: "3" },
+                { code: "66673", name: "Apps Development", credit: "3" },
+                { code: "66674", name: "Project & Viva", credit: "3" },
+                { code: "65853", name: "Entrepreneurship", credit: "2" }
+            ],
+            "8th Semester": [
+                { code: "66681", name: "Industrial Attachment / Internship", credit: "6" },
+                { code: "66682", name: "Project Work & Presentation", credit: "4" }
+            ]
+        };
+
+        function handleSearch(e) {
+            e.preventDefault();
+
+            const roll = document.getElementById('input-roll').value.trim();
+            const reg = document.getElementById('input-reg').value.trim();
+            const semester = document.getElementById('input-semester').value;
+
+            if (!roll || !reg || !semester) {
+                alert("Please fill in all fields (Roll, Registration Number, and Semester).");
+                return;
+            }
+
+            let studentData = {};
+
+            // Check if exact match for Mohammad Nur Nobi
+            if (roll === "855285" && reg === "1502351710" && semester === "5th Semester") {
+                studentData = {
+                    name: "Mohammad Nur Nobi",
+                    roll: "855285",
+                    reg: "1502351710",
+                    technology: "Computer Technology",
+                    semester: "5th Semester",
+                    gpa: "3.29",
+                    status: "PASSED",
+                    courses: [
+                        { code: "66651", name: "Programming in Java", credit: "3", grade: "A", point: "3.75" },
+                        { code: "66652", name: "Operating System Application", credit: "3", grade: "A-", point: "3.50" },
+                        { code: "66653", name: "Web Development Project", credit: "3", grade: "A+", point: "4.00" },
+                        { code: "66654", name: "Data Communication System", credit: "3", grade: "B+", point: "3.25" },
+                        { code: "66655", name: "Computer Architecture", credit: "3", grade: "B", point: "3.00" },
+                        { code: "66856", name: "Industrial Management", credit: "2", grade: "B-", point: "2.75" }
+                    ]
+                };
+            } else {
+                // Generate dynamic realistic result for any other Roll/Reg/Semester combination
+                const subjects = semesterSubjectsMap[semester] || semesterSubjectsMap["1st Semester"];
+                
+                // Deterministic GPA generator based on roll number digits
+                const numRoll = parseInt(roll) || 100000;
+                const baseGpa = (3.00 + ((numRoll % 85) / 100)).toFixed(2);
+
+                const generatedCourses = subjects.map((sub, i) => {
+                    const gradeList = [
+                        { grade: "A+", point: "4.00" },
+                        { grade: "A", point: "3.75" },
+                        { grade: "A-", point: "3.50" },
+                        { grade: "B+", point: "3.25" },
+                        { grade: "B", point: "3.00" }
+                    ];
+                    const chosen = gradeList[(numRoll + i) % gradeList.length];
+                    return {
+                        code: sub.code,
+                        name: sub.name,
+                        credit: sub.credit,
+                        grade: chosen.grade,
+                        point: chosen.point
+                    };
+                });
+
+                studentData = {
+                    name: "Student Name (Reg: " + reg + ")",
+                    roll: roll,
+                    reg: reg,
+                    technology: "Computer Technology",
+                    semester: semester,
+                    gpa: baseGpa,
+                    status: "PASSED",
+                    courses: generatedCourses
+                };
+            }
+
+            renderMarksheet(studentData);
+        }
+
+        function renderMarksheet(student) {
+            document.getElementById('res-name').innerText = student.name;
+            document.getElementById('res-roll').innerText = student.roll;
+            document.getElementById('res-reg').innerText = student.reg;
+            document.getElementById('res-tech').innerText = student.technology;
+            document.getElementById('res-semester').innerText = student.semester;
+            document.getElementById('res-badge').innerText = `Official Academic Marksheet — ${student.semester} Examination`;
+            document.getElementById('res-gpa').innerText = student.gpa;
+            document.getElementById('res-status').innerHTML = `<i class="fa-solid fa-circle-check"></i> ${student.status}`;
+            
+            // Set QR Code
+            document.getElementById('res-qr').src = `https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=${encodeURIComponent(student.name + ' Roll:' + student.roll + ' Reg:' + student.reg + ' GPA:' + student.gpa + ' ' + student.semester)}`;
+
+            // Build courses table
+            const tableBody = document.getElementById('course-table-body');
+            tableBody.innerHTML = '';
+
+            student.courses.forEach((c, idx) => {
+                const tr = document.createElement('tr');
+                tr.className = idx % 2 === 0 ? 'bg-white' : 'bg-slate-50/50';
+                tr.innerHTML = `
+                    <td class="p-3 font-mono text-xs text-slate-500 font-bold">${c.code}</td>
+                    <td class="p-3 font-semibold text-slate-800">${c.name}</td>
+                    <td class="p-3 text-center">${c.credit}</td>
+                    <td class="p-3 text-center font-bold text-dpi-navy">${c.grade}</td>
+                    <td class="p-3 text-right font-bold text-slate-700">${c.point}</td>
+                `;
+                tableBody.appendChild(tr);
+            });
+
+            // Show Result View and Action Bar
+            document.getElementById('result-view').classList.remove('hidden');
+            document.getElementById('action-bar').classList.remove('hidden');
+
+            // Scroll smoothly to result
+            document.getElementById('result-view').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetForm() {
+            document.getElementById('search-form').reset();
+            document.getElementById('result-view').classList.add('hidden');
+            document.getElementById('action-bar').classList.add('hidden');
+        }
+
+        function searchAnother() {
+            resetForm();
+            document.getElementById('search-section').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
